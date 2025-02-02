@@ -1,24 +1,18 @@
 pipeline {
     agent any
-    
-    // Disable the default checkout that Jenkins performs
-    options {
-        skipDefaultCheckout(true)
-    }
-    
+
     environment {
+        // Make sure the PATH includes directories where npm is installed
+        PATH = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
         DOCKER_IMAGE = 'my-web-app:latest'
     }
-    
+
     stages {
-        // Explicit checkout stage that uses the correct branch
         stage('Checkout') {
             steps {
-                // Use your SSH URL (if that’s how you access your repo) and specify branch 'main'
-                // Replace 'your-credential-id' with the actual ID of your SSH credential stored in Jenkins.
-                git branch: 'main', 
-                    url: 'git@github.com:fayaz960/my-web-app.git', 
-                    credentialsId: 'your-credential-id'
+                // If you're using the default SCM checkout, you can remove this stage.
+                // Otherwise, include your checkout steps here.
+                git branch: 'main', url: 'git@github.com:fayaz960/my-web-app.git', credentialsId: 'actual-credential-id'
             }
         }
         stage('Install Dependencies') {
